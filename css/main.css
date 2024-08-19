@@ -1,0 +1,475 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nanum+Gothic+Coding&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --text-color: white;
+    --background-color: white;
+    --tint-color: rgb(33, 122, 224);
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-image: url("../img/wallpaper.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+input {
+    border-style: none;
+    outline: none;
+}
+button {
+    border-style: none;
+    background-color: transparent;
+}
+button:hover {
+    cursor: pointer;
+}
+select {
+    appearance: none;
+}
+select:hover {
+    cursor: pointer;
+}
+ul, li {
+    list-style: none;
+}
+
+/* wallpaper_section */
+.wallpaper_section {
+    height: 100vh;
+    transition: all 0.3s;
+    width: 100vw;
+}
+.background {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 20px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.396);
+    position: relative;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+}
+.background .wallclock {
+    font-family: "Advent Pro", sans-serif;
+    font-weight: 100;
+    text-align: center;
+    flex: 3;
+}
+.year {
+    font-size: 40px;
+    color: var(--text-color);
+    margin-bottom: 230px;
+    letter-spacing: 10px;
+}
+.date {
+    height: 170px;
+    font-size: 170px;
+    color: var(--text-color);
+    line-height: 160px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    letter-spacing: 6px;
+}
+.clock {
+    font-size: 30px;
+    color: var(--text-color);
+    letter-spacing: 10px;
+}
+
+/* 슬라이드 캘린더 */
+.slideBtn {
+    box-sizing: border-box;
+    width: 40px;
+    height: 90px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.slideBtn button {
+    font-size: 25px;
+    color: white;
+    transition: transform 0.3s;
+    z-index: 10;
+}
+.slideCalendar {
+    box-sizing: border-box;
+    padding: 30px;
+    transform: translateX(-100%);
+    height: 100vh;
+    width: 45%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.slideCalendar .yearBox {
+    font-family: "Advent Pro", sans-serif;
+    font-weight: 100;
+    color: white;
+    font-size: 30px;
+    letter-spacing: 3px;
+}
+.calendarBox {
+    width: 75%;
+    height: 55%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px black;
+    text-align: center;
+    padding: 20px;
+    color: black;
+    overflow: scroll;
+}
+.calendarBox header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.calendarBox header h3 {
+    font-family: "Advent Pro", sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+}
+.calendarBox nav button {
+    width: 20px;
+    height: 20px;
+    color: black;
+    transition: all 0.5s;
+}
+.calendarBox nav button i {
+    line-height: 20px;
+    font-size: 25px;
+}
+.calendarBox ul {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.calendarBox ul li {
+    width: calc(100% / 7);
+    margin-top: 15px;
+    z-index: 2;
+}
+.calendarBox .days {
+    display: flex;
+    font-weight: bold;
+}
+#prev:hover, #next:hover {
+    color: var(--tint-color);
+    scale: 1.2;
+}
+.dates li {
+    box-sizing: border-box;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+}
+.dates li.inactive {
+    color: #6a6a6a;
+}
+.dates li.today {
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+.dates li.today::before {
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--tint-color);
+    border-radius: 50%;
+    z-index: -1;
+}
+.dates li:hover {
+    cursor: pointer;
+    scale: 1.2;
+}
+.dates li.selected {
+    background-color: var(--tint-color);
+    color: white;
+    border-radius: 50%;
+}
+
+/* 캘린더 슬라이더 밑 할 일 보여주기 */
+.dailyTodo {
+    margin-top: 10px;
+    width: 75%;
+    height: 35%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    align-self: flex-end;
+}
+
+/* todo_section */
+.todo_section {
+    height: 100vh;
+    width: 40%;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: rgba(0, 0, 0, 0.847);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    transition: all 0.1s;
+}
+
+/* 카테고리 선택, 검색 */
+.top_bar {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 0 0 20px 0;
+}
+.category {
+    width: 45%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.top_bar button {
+    box-sizing: border-box;
+    border-style: none;
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 0 10px;
+    background-color: var(--tint-color);
+    outline: none;
+    color: white;
+    text-align: center;
+}
+.top_bar ul {
+    display: none;
+    z-index: 5;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    top: 50px;
+    box-shadow: 0px 0px 4px black;
+}
+.ctgyLabel.on+.optionList {
+    display: block;
+}
+.optionList li {
+    transition: all 0.3s;
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+.optionItem:hover {
+    cursor: pointer;
+    background-color: var(--tint-color);
+    color: white;
+}
+.optionItem:not(:last-child) {
+    border-bottom: 0.5px solid gray;
+}
+.optionItem:nth-child(1){
+    border-radius: 10px 10px 0 0;
+}
+.optionItem:nth-child(4) {
+    border-radius: 0 0 10px 10px;
+}
+.top_bar .search {
+    width: 45%;
+}
+.top_bar .search input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.63);
+    padding: 0 15px;
+    color: black;
+}
+.top_bar .search input::placeholder {
+    color: var(--text-color);
+}
+
+/* 투두리스트 추가 */
+.todo_input {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    justify-content: center;
+    border-top: 0.5px solid white;
+}
+.todo_input input {
+    box-sizing: border-box;
+    width: 79%;
+    height: 55px;
+    padding: 0 15px;
+    font-size: 15px;
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 2.5%;
+}
+.todo_input input::placeholder {
+    color: gray;
+}
+.todo_input button {
+    text-align: center;
+    box-sizing: border-box;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 50px;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.697);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 투두리스트 목록 */
+#todo_list {
+    width: 100%;
+    height: 700px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow-y: scroll;
+    border-top: 0.5px solid white;
+    border-bottom: 0.5px solid white;
+}
+.todoBox {
+    box-sizing: border-box;
+    padding: 5px 0;
+    width: 100%;
+    height: 110px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contentBox {
+    box-sizing: border-box;
+    padding: 15px;
+    width: 80%;
+    height: 100px;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.btnBox {
+    box-sizing: border-box;
+    padding: 10px 0;
+    width: 10%;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.697);
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* 투두박스 안 요소들 */
+.contentBox .bottomDetail {
+    display: flex;
+    align-items: flex-end;
+}
+.contentBox .todoPart {
+    outline: none;
+    margin-bottom: 10px;
+}
+.bottomDetail .ctgy {
+    display: inline-block;
+    box-sizing: content-box;
+    border-right: 1.5px gray solid;
+    padding-right: 10px;
+    color: gray;
+}
+.bottomDetail .writtenDate {
+    text-align: start;
+    display: inline-block;
+    width: 90px;
+    padding-left: 10px;
+    color: gray;
+}
+.bottomDetail .ctgy:hover, .writtenDate:hover {
+    color: black;
+}
+.btnBox .btnList {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.btnList button {
+    font-size: 16px;
+    color: black;
+}
+.btnList button:hover {
+    scale: 1.3;
+}
+ 
+/* 완료된/미완료된 항목 */
+.count_task {
+    box-sizing: border-box;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px 0 0 0;
+}
+.completed, .pending {
+    width: 43%;
+    height: 80px;
+    border: 1px solid white;
+    border-radius: 15px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 5px;
+    font-size: 13px;
+    color: white;
+}
+.completedCount, .pendingCount {
+    margin: 8px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+@media screen and (max-width: '930px') {
+    
+}

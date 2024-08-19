@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <link rel="stylesheet" href="../css/main.css">
+    <script defer src="../js/main.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 왼쪽 배경사진 -->
+    <section class="wallpaper_section">
+        <div class="background">
+            <div class="slideBtn">
+                <button><i class="far fa-check-circle"></i></button>
+                <button><i class="far fa-calendar"></i></button>
+            </div>
+            <div class="wallclock">
+                <div class="year"></div>
+                <div class="date"></div>
+                <div class="clock"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 슬라이드달력 -->
+    <div class="slideCalendar">
+        <h3 class="yearBox"></h3>
+        <div class="calendarBox">
+            <header>
+                <nav>
+                    <button id="prev"><i class="fas fa-chevron-left"></i></button>
+                </nav>
+                <h3></h3>
+                <nav>
+                    <button id="next"><i class="fas fa-chevron-right"></i></button>
+                </nav>
+            </header>
+            <section>
+                <ul class="days">
+                    <li>일</li>
+                    <li>월</li>
+                    <li>화</li>
+                    <li>수</li>
+                    <li>목</li>
+                    <li>금</li>
+                    <li>토</li>
+                </ul>
+                <ul class="dates"></ul>
+            </section>
+        </div>
+        <div class="dailyTodo">
+
+        </div>
+    </div>
+
+    <!-- 오른쪽 투두리스트 -->
+    <section class="todo_section">
+        <!-- 상단 카테고리 선택, 검색 -->
+        <div class="top_bar">
+            <form class="category">
+                <button class="ctgyLabel">Select Category <i class="fas fa-sort"></i></button>
+                <ul class="optionList">
+                    <li class="optionItem">Study</li>
+                    <li class="optionItem">Hobby</li>
+                    <li class="optionItem">Workout</li>
+                    <li class="optionItem">Others</li>
+                </ul>
+            </form>
+
+            <form class="search">
+                <input type="text" class="searchTodo" placeholder="Search by name">
+            </form>
+        </div>
+
+        <!-- 투두리스트 추가 -->
+        <div class="todo_input">
+            <input type="text" class="writeTodo" placeholder="오늘 할 일을 입력하세요:)">
+            <button class="addBtn"><i class="fas fa-plus"></i></button>
+        </div>
+
+        <!-- 투두리스트 목록 -->
+        <div id="todo_list">
+            <!-- 투두 템플릿 -->
+            <div id="todo_template" style="display: none;">
+                <div class="todoBox">
+                    <div class="contentBox">
+                        <div class="todoPart"></div>
+                        <div class="bottomDetail">
+                            <button class="ctgy"></button>
+                            <button class="writtenDate"></button>
+                        </div>
+                    </div>
+                    <div class="btnBox">
+                        <ul class="btnList">
+                            <button><i class="far fa-check-circle"></i></button>
+                            <button><i class="fa fa-pen"></i></button>
+                            <button><i class="fa fa-trash-alt"></i></button>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 달성 현황 -->
+        <div class="count_task">
+            <div class="completed">
+                COMPLETED<br>TASK
+                <div class="completedCount"></div>
+            </div>
+            <div class="pending">
+                PENDING<br>TASK
+                <div class="pendingCount"></div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
