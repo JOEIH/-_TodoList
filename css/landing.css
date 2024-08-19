@@ -39,31 +39,28 @@ body {
     font-weight: 100;
     letter-spacing: 3px;
 }
-.icon {
-    width: 100px;
-    height: 100px;
-    top: 35px;
-    left: 72px;
-    transform: rotate(-20deg);
-    margin: 50px 0 50px 0;
+.img {
+    margin: 20px 0;
+    box-shadow: 3px 3px 2px gray;
+    width: 230px;
+    height: 140px;
+    border-radius: 5px;
+    background-image: url("../img/wallpaper.jpg");
+    background-size: cover;
 }
-.icon img {
-    width: 100%;
-}
-
 .startBtn a {
     display: block;
     width: 250px;
-    height: 70px;
+    height: 50px;
     border-radius: 50px;
     background-color: black;
     color: white;
     font-size: 20px;
-    line-height: 70px;
+    line-height: 50px;
     font-family: "Advent Pro", sans-serif;
     font-weight: 100;
     letter-spacing: 3px;
-    margin-top: 20px;
+    margin-top: 45px;
 }
 
 /*반응형*/
