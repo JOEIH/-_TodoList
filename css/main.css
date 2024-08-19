@@ -124,8 +124,9 @@ ul, li {
     letter-spacing: 3px;
 }
 .calendarBox {
+    margin-top: 10px;
     width: 75%;
-    height: 55%;
+    height: 50%;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0px 0px 4px black;

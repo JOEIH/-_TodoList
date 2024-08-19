@@ -87,6 +87,9 @@ function makeTodoBox() {
     let months = today.getMonth() + 1;
     let year = today.getFullYear();
     let days = today.getDate();
+    let todoDate = `${months}.${days}`
+    let todoText = todoPart.textContent;
+    todoData(todoDate, todoText);
     
     ctgy.textContent = selectedCtgy;
     writtenDate.textContent = `${year}.${months}.${days}`;
@@ -150,8 +153,9 @@ function makeTodoBox() {
     // Append the new todo box to the todo list
     todoList.appendChild(newTodoBox);
     ctgyBtn.innerHTML = defaultCtgyText;
-}
 
+    updateDailyTodoList();
+}
 
 //버튼 누르면 투두리스트 추가
 function addTodo() {
@@ -160,6 +164,7 @@ function addTodo() {
         ctgyBtn.innerHTML = defaultCtgyText;
         pendingCount++;
         writeTodo.value = '';
+
         countingTask();
     } else {
         if (ctgyBtn.innerHTML == defaultCtgyText && writeTodo.value == '') {
@@ -322,21 +327,65 @@ navs.forEach(nav => {
         renderCalendar();
     })
 })
+
 renderCalendar();
 
+//달력에서 날짜 선택하면 해당 날짜의 투두 표시
+let selectedDay = document.querySelectorAll('.dates li');
+let dailyTodo = document.querySelector('.dailyTodo');
+let todayNum = document.querySelector('.today');
+   
+let todoByDay = {};
+ 
+//날짜, 투두 저장
+function todoData(day, todo) {
+    if (!todoByDay[day]) {
+        todoByDay[day] = [];
+    }
+    todoByDay[day].push(todo);
+}
 
-// //달력 누르면 할 일 보여주기
-// let selectedDay = document.querySelectorAll('.dates li');
-// let dailyTodo = document.querySelector('.dailyTodo');
-// let todayNum = document.querySelector('.today');
+//오늘 날짜 기준으로 투두 업데이트
+function updateDailyTodoList() {
+    let todayDate = `${month + 1}.${today.getDate()}`; 
+    displayTodosForDay(todayDate); 
+}
 
-// if(writtenDate.includes('todayNum')) {
-//     dailyTodo.innerHTML += `<li></li>`
-// }   
-// selectedDay.forEach(someday => {
+//처음 화면에 오늘 날짜 투두리스트 표시
+function initTodoList() {
+    let todayDate = `${month + 1}.${todayNum.innerText}`;
+    displayTodosForDay(todayDate); 
+    todayNum.classList.add('selected');
+}
 
-//     someday.addEventListener('click', () => {
-//         someday.setAttribute('class', 'selected');
-//         dailyTodo.innerHTML += '<li>test</li>'
-//     })
-// })
+//선택한 날짜 업데이트
+function updateSelectedDay(newSelectedDay) {
+    selectedDay.forEach(day => day.classList.remove('selected')); 
+    newSelectedDay.classList.add('selected');
+}
+
+//선택한 날짜 투두리스트 표시
+function displayTodosForDay(date) {
+    //dailyTodo 초기화
+    dailyTodo.innerHTML = '';
+    if (todoByDay[date]) {
+        todoByDay[date].forEach(todo => {
+            dailyTodo.innerHTML += `<li>${todo}</li>`;
+        });
+    }
+}
+
+//달력에서 날짜 클릭하면 displayTodosForDay함수에 매개변수 전달
+dates.addEventListener('click', (e) => {
+    if (e.target.tagName === 'LI' && !e.target.classList.contains('inactive')) {
+        updateSelectedDay(e.target);
+        let dayNumber = e.target.innerText;
+        let selectedDate = `${month + 1}.${dayNumber}`;
+        displayTodosForDay(selectedDate);
+    }
+});
+
+// 페이지 로드 시 오늘 날짜의 투두리스트를 초기화면에 표시
+initTodoList();
+
+
