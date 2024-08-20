@@ -26,6 +26,9 @@ function inputClock() {
 setInterval(inputClock, 1000) 
 inputClock();
 
+
+
+
 //카테고리
 const ctgyBtn = document.querySelector('.ctgyLabel');
 const optionList = document.querySelector('.optionList');
@@ -50,12 +53,39 @@ optionList.addEventListener('click', (e) => {
 })
 
 
+
+//날짜에 해당하는 투두리스트 넣을 공간
+const dailyTodo = document.querySelector('.dailyTodo');
+
+
+//투두리스트 담을 객체
+let todos = {}
+
+// 날짜에 해당하는 투두리스트를 표시하는 함수
+function showTodos(date) {
+    dailyTodo.innerHTML = `<p>${date}</p>`
+    // dailyTodo.innerHTML = ''; // 기존 내용을 초기화
+    if (todos[date]) {
+        todos[date].forEach(todo => {
+            const todoItem = document.createElement('li');
+            todoItem.textContent = todo;
+            dailyTodo.appendChild(todoItem);
+        });
+    } else {
+        dailyTodo.innerHTML = '<p>투두리스트를 추가하세요 :)</p>';
+    }
+}
+
+
+
+
 // 투두리스트 추가
 const addBtn = document.querySelector('.addBtn');
 const writeTodo = document.querySelector('.writeTodo');
 const todoList = document.getElementById('todo_list');
 const category = document.querySelector('.category');
-//counting task
+
+//완료, 미완료 개수 세기
 const completed = document.querySelector('.completedCount');
 const pending = document.querySelector('.pendingCount');
 let pendingCount = 0;
@@ -63,108 +93,133 @@ let completedCount = 0;
 completed.textContent = completedCount;
 pending.textContent = pendingCount;
 
-//todo 개수 세기
 function countingTask() {
     completed.textContent = completedCount;
     pending.textContent = pendingCount;
 }   
 
+
+//투두박스 만들기
 function makeTodoBox() {
     countingTask();
-    // Clone the template todo box
+    //html에 만들어져있는 todoBox 복제
     let template = document.getElementById('todo_template').children[0];
     let newTodoBox = template.cloneNode(true);
 
-    // Set the content for the new todo box
+    //투두리스트 내용
     let todoPart = newTodoBox.querySelector('.todoPart');
     todoPart.textContent = writeTodo.value;
 
     let ctgy = newTodoBox.querySelector('.ctgy');
-    let writtenDate = newTodoBox.querySelector('.writtenDate');
+    var writtenDate = newTodoBox.querySelector('.writtenDate');
 
-    // Set the category and date
+    //카테고리, 날짜 설정
     let selectedCtgy = category.innerText;
     let months = today.getMonth() + 1;
     let year = today.getFullYear();
     let days = today.getDate();
-    let todoDate = `${months}.${days}`
-    let todoText = todoPart.textContent;
-    todoData(todoDate, todoText);
     
     ctgy.textContent = selectedCtgy;
-    writtenDate.textContent = `${year}.${months}.${days}`;
+    writtenDate.value = `${year}-${String(months).padStart(2, '0')}-${String(days).padStart(2, '0')}`;
+    
+    // 투두리스트에 날짜별로 저장
+    if (!todos[writtenDate.value]) {
+        todos[writtenDate.value] = [];
+    }
+    todos[writtenDate.value].push(todoPart.textContent);
 
-    // Attach event listeners for edit and delete buttons
+    // 날짜 변경 시 실시간 업데이트
+    writtenDate.addEventListener('change', () => {
+        let oldDate = Object.keys(todos).find(date => todos[date].includes(todoPart.textContent));
+        if (oldDate && oldDate !== writtenDate.value) {
+            todos[oldDate] = todos[oldDate].filter(todo => todo !==todoPart.textContent);
+            if (!todos[writtenDate.value]) {
+                todos[writtenDate.value] = [];
+            }
+            todos[writtenDate.value].push(todoPart.textContent);
+        }
+        showTodos(writtenDate.value); // 날짜 변경 시 dailyTodo 업데이트
+    });
+    
+
+    //완료, 수정, 삭제버튼
     let checkBtn = newTodoBox.querySelector('.fa-check-circle').parentNode;
     let editBtn = newTodoBox.querySelector('.fa-pen').parentNode;
     let deleteBtn = newTodoBox.querySelector('.fa-trash-alt').parentNode;
 
     let state = false;
-    //complete function
+
+    //완료
     checkBtn.addEventListener('click', function() {
         if (state === false) {
             completedCount++;
             pendingCount--;
             newTodoBox.style.filter = 'brightness(50%)'
             state = true;
+            dailyTodo
         } else {
             completedCount--;
             pendingCount++;
+            editBtn.style.color = 'black';
             newTodoBox.style.filter = 'brightness(100%)'
             state = false;
         }
         countingTask();
     })
 
-    // Edit function
-    editBtn.addEventListener('click', function() {
-        // Make contentBox editable and focus it
-        todoPart.setAttribute('contenteditable', 'true');
-        todoPart.focus();
-
-        // When the user clicks outside the contentBox, save changes and remove the editable attribute
-        if (todoPart != '') {
-            todoPart.addEventListener('blur', function() {
-                todoPart.removeAttribute('contenteditable');
-            })
-        }else {
-            alert('변경할 내용이 없습니다.');
+    //수정
+    editBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (state === true) {
+            editBtn.style.color = 'red';
+            setTimeout(() => {
+                editBtn.style.color = 'black';
+            },2000)
+            todoPart.setAttribute('contenteditable', 'false');
+        } else {
+            todoPart.setAttribute('contenteditable', 'true');
+            todoPart.focus();
         }
     });
 
-    // Delete function
+    //삭제
     deleteBtn.addEventListener('click', function() {
         if(state === true) {
             completedCount--;
         } else {
             pendingCount--;
         }
+
+        let date = writtenDate.value;
+        todos[date] = todos[date].filter(todo => todo !== todoPart.textContent);
         countingTask();
-        newTodoBox.remove(); // Remove the entire todo box
+        newTodoBox.remove(); 
+        showTodos(date);
     });
 
     //카테고리 변경
     ctgy.addEventListener('click', (e) => {
         e.preventDefault();
         ctgyBtn.classList.toggle('on');
-        activeTodoBox = newTodoBox; // Set the currently active Todo box
+        activeTodoBox = newTodoBox; 
     });
 
-    // Append the new todo box to the todo list
+
     todoList.appendChild(newTodoBox);
     ctgyBtn.innerHTML = defaultCtgyText;
 
-    updateDailyTodoList();
+    showTodos(writtenDate.value);
 }
 
-//버튼 누르면 투두리스트 추가
+
+
+//+ 버튼 누르면 투두리스트 추가
 function addTodo() {
     if(writeTodo.value != '') {
         makeTodoBox();
         ctgyBtn.innerHTML = defaultCtgyText;
         pendingCount++;
         writeTodo.value = '';
-
         countingTask();
     } else {
         if (ctgyBtn.innerHTML == defaultCtgyText && writeTodo.value == '') {
@@ -187,6 +242,10 @@ function enterKey(event) {
 writeTodo.addEventListener('keydown', enterKey);
 addBtn.addEventListener('click', addTodo);
 
+
+
+
+//투두 슬라이드
 //햄버거 누르면 todo_section 사라지게
 const hamburger = document.querySelector('.fa-check-circle');
 const calBtn = document.querySelector('.fa-calendar');
@@ -200,7 +259,7 @@ const slideCalender = document.querySelector('.slideCalendar');
 let state = false;
 hamburger.addEventListener('click', function() {
     if (state === false) {
-        //wallpaper 우측으로, todo_section 슬라이드 우측
+        //wallpaper 좌측으로 이동, todo_section 슬라이드 우측에서 나오도록
         hamburger.setAttribute('class', 'fas fa-check-circle');
         todoSection.style.transform = 'translateX(0)'
         wallpaperSection.style.width = '60%'
@@ -219,6 +278,7 @@ hamburger.addEventListener('click', function() {
     }
 })
 
+//캘린더 슬라이드
 calBtn.addEventListener('click', function() {
     if(state === false) {
         calBtn.setAttribute('class', 'fas fa-calendar');
@@ -235,6 +295,8 @@ calBtn.addEventListener('click', function() {
         state = false;
     }
 })
+
+
 
 //검색기능
 const searchTodo = document.querySelector('.searchTodo');
@@ -260,18 +322,37 @@ function enterSearch(e) {
 }
 searchTodo.addEventListener('keydown', enterSearch);
 
+
+
+
+function clickedDate() {
+    document.querySelectorAll('.dates li').forEach(dateElement => {
+        dateElement.addEventListener('click', function () {
+            document.querySelectorAll('.dates li').forEach(date => {
+                date.classList.remove('selected');
+            });
+
+            if (!this.classList.contains('today')) this.classList.add('selected');
+
+            let selectedDay = `${years}-${String(month + 1).padStart(2, '0')}-${String(this.textContent).padStart(2, '0')}`;
+            today = new Date(years, month, this.textContent);
+            showTodos(selectedDay);
+
+            today = new Date(years, month, parseInt(this.textContent, 10));
+        });
+    });
+}
+
 //캘린더
 const yearBox = document.querySelector('.yearBox')
 const header = document.querySelector('header h3');
 const dates = document.querySelector('.dates');
 const navs = document.querySelectorAll('.fa-chevron-left, .fa-chevron-right');
 
-// const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-// ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
 let today = new Date();
 let month = today.getMonth();
 let years = today.getFullYear();
+let days = today.getDate();
 
 function renderCalendar() {
     const start = new Date(years, month, 1).getDay();
@@ -302,8 +383,15 @@ function renderCalendar() {
     dates.innerHTML = datesHtml;
     header.textContent = `${month + 1}`
     yearBox.textContent = `${years}`
-}
 
+    // 초기화면에 오늘 날짜의 투두리스트 표시
+    let initialDay = `${years}-${String(month + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    showTodos(initialDay);
+    clickedDate();
+}
+    
+
+//캘린더 다른 달로 이동
 navs.forEach(nav => {
     nav.addEventListener('click', e => {
         if(e.target.classList.contains('fa-chevron-left')) {
@@ -329,63 +417,5 @@ navs.forEach(nav => {
 })
 
 renderCalendar();
-
-//달력에서 날짜 선택하면 해당 날짜의 투두 표시
-let selectedDay = document.querySelectorAll('.dates li');
-let dailyTodo = document.querySelector('.dailyTodo');
-let todayNum = document.querySelector('.today');
-   
-let todoByDay = {};
- 
-//날짜, 투두 저장
-function todoData(day, todo) {
-    if (!todoByDay[day]) {
-        todoByDay[day] = [];
-    }
-    todoByDay[day].push(todo);
-}
-
-//오늘 날짜 기준으로 투두 업데이트
-function updateDailyTodoList() {
-    let todayDate = `${month + 1}.${today.getDate()}`; 
-    displayTodosForDay(todayDate); 
-}
-
-//처음 화면에 오늘 날짜 투두리스트 표시
-function initTodoList() {
-    let todayDate = `${month + 1}.${todayNum.innerText}`;
-    displayTodosForDay(todayDate); 
-    todayNum.classList.add('selected');
-}
-
-//선택한 날짜 업데이트
-function updateSelectedDay(newSelectedDay) {
-    selectedDay.forEach(day => day.classList.remove('selected')); 
-    newSelectedDay.classList.add('selected');
-}
-
-//선택한 날짜 투두리스트 표시
-function displayTodosForDay(date) {
-    //dailyTodo 초기화
-    dailyTodo.innerHTML = '';
-    if (todoByDay[date]) {
-        todoByDay[date].forEach(todo => {
-            dailyTodo.innerHTML += `<li>${todo}</li>`;
-        });
-    }
-}
-
-//달력에서 날짜 클릭하면 displayTodosForDay함수에 매개변수 전달
-dates.addEventListener('click', (e) => {
-    if (e.target.tagName === 'LI' && !e.target.classList.contains('inactive')) {
-        updateSelectedDay(e.target);
-        let dayNumber = e.target.innerText;
-        let selectedDate = `${month + 1}.${dayNumber}`;
-        displayTodosForDay(selectedDate);
-    }
-});
-
-// 페이지 로드 시 오늘 날짜의 투두리스트를 초기화면에 표시
-initTodoList();
 
 
