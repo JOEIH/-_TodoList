@@ -18,10 +18,10 @@
 
 
 ## 2. 실행 화면
-![랜딩페이지](./img/landing_page.png){: width="480" height="360"}<br>
-![실행화면 1](./img/main_page_3.png){: width="480" height="360"}<br>
-![실행화면 2](./img/main_page_1.png){: width="480" height="360"}<br>
-![실행화면 3](./img/main_page_2.png){: width="480" height="360"}<br>
+<img src="./img/landing_page.png" alt="landing" width="480" height="360">
+<img src="./img/main_page_3.png" alt="landing" width="480" height="360">
+<img src="./img/main_page_1.png" alt="landing" width="480" height="360">
+<img src="./img/main_page_2.png" alt="landing" width="480" height="360">
 
 
 
