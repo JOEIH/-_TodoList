@@ -1,9 +1,10 @@
 # ✅ 투두리스트
 개발 기간: 8/15 ~ 8/20<br>
-사용 언어: <code>HTML, CSS, JavaScript</code>
+사용 언어: <code>HTML, CSS, JavaScript</code> <br>
 
 
 <hr><br>
+
 ## 1. 기능 소개
 - 투두리스트 추가, 완료, 수정, 삭제
 - 카테고리와 날짜 선택
