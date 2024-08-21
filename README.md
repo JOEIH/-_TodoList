@@ -3,7 +3,7 @@
 사용 언어: <code>HTML, CSS, JavaScript</code> <br>
 
 
-<hr><br>
+<br>
 
 ## 1. 기능 소개
 - 투두리스트 추가, 완료, 수정, 삭제
