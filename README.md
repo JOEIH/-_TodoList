@@ -1,6 +1,6 @@
 # ✅ 투두리스트
 개발 기간: 8/15 ~ 8/20
-사용 언어: \`HTML\`, \`CSS\`, \`JavaScript\`
+사용 언어: <code>HTML, CSS, JavaScript</code>
 
 
 <hr><br>
