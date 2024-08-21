@@ -6,7 +6,9 @@
 <br>
 
 ## 1. 기능 소개
+- 초기화면에 날짜, 타이머 표시
 - 투두리스트 추가, 완료, 수정, 삭제
+- 투두리스트 창, 캘린더창 슬라이더로 구현
 - 카테고리와 날짜 선택
 - 내용으로 투두리스트 검색
 - 투두리스트 개수 계산(완료/미완료 항목 구분)
@@ -16,9 +18,10 @@
 
 
 ## 2. 실행 화면
-![랜딩페이지](./img/landing_page.png)<br>
-![실행화면 1](./img/main_page_1.png)<br>
-![실행화면 2](./img/main_page_2.png)<br>
+![랜딩페이지](./img/landing_page.png){: width="480" height="360"}<br>
+![실행화면 1](./img/main_page_3.png){: width="480" height="360"}<br>
+![실행화면 2](./img/main_page_1.png){: width="480" height="360"}<br>
+![실행화면 3](./img/main_page_2.png){: width="480" height="360"}<br>
 
 
 
