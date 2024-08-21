@@ -18,10 +18,10 @@
 
 
 ## 2. 실행 화면
-<img src="./img/landing_page.png" alt="landing" width="480" height="360">
-<img src="./img/main_page_3.png" alt="landing" width="480" height="360">
-<img src="./img/main_page_1.png" alt="landing" width="480" height="360">
-<img src="./img/main_page_2.png" alt="landing" width="480" height="360">
+<img src="./img/landing_page.png" alt="landing" width="520" height="360">
+<img src="./img/main_page_3.png" alt="landing" width="520" height="360">
+<img src="./img/main_page_1.png" alt="landing" width="520" height="360">
+<img src="./img/main_page_2.png" alt="landing" width="520" height="360">
 
 
 
